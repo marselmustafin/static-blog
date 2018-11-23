@@ -1,11 +1,15 @@
-<article>
-    <section class="header">
-        Posted on $date$
-        $if(author)$
-            by $author$
-        $endif$
-    </section>
-    <section>
-        $body$
-    </section>
-</article>
+<h2> $title$ </h2>
+
+<span class="date">$date$</span>
+
+$body$
+
+<div>
+  $if(prevPost)$
+  <a href="$prevPost$" style="float:left;">Previous post</a>
+  $endif$
+  $if(nextPost)$
+  <a href="$nextPost$" style="float:right; text-align: right;">Next post</a>
+  $endif$
+</div>
+<br style="clear: both;" />
