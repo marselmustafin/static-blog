@@ -17,18 +17,38 @@ main :: IO ()
 main = hakyll $ do
   static
   let ldr ctx i = loadAndApplyTemplate "templates/default.html" ctx i >>= relativizeUrls
+
   match "index.org" $ do
     route   $ setExtension "html"
     compile $ pandocCompiler >>= ldr defaultContext
+
   match "pgp.org" $ do
     route   $ setExtension "html"
     compile $ pandocCompiler >>= ldr defaultContext
+
+  tags <- buildTags "posts/*" (fromCapture "tags/*.html")
+
+  tagsRules tags $ \tag pattern -> do
+        let title = "Posts tagged \"" ++ tag ++ "\""
+        route idRoute
+        compile $ do
+            posts <- recentFirst =<< loadAll pattern
+            let ctx = constField "title" title
+                      `mappend` listField "posts" postCtx (return posts)
+                      `mappend` defaultContext
+
+            makeItem ""
+                >>= loadAndApplyTemplate "templates/tag.html" ctx
+                >>= loadAndApplyTemplate "templates/default.html" ctx
+                >>= relativizeUrls
+
   match "posts/*" $ do
     route $ setExtension "html"
     compile $ pandocCompiler
       >>= loadAndApplyTemplate "templates/post.html" postCtx
       >>= saveSnapshot "content"
       >>= ldr postCtx
+
   create ["posts.html"] $ do
     route idRoute
     compile $ do
@@ -39,6 +59,7 @@ main = hakyll $ do
       makeItem ""
         >>= loadAndApplyTemplate "templates/posts.html" archiveCtx
         >>= ldr archiveCtx
+
   match "templates/*" $ compile templateBodyCompiler
 
 postCtx :: Context String
@@ -46,6 +67,9 @@ postCtx =
     field "nextPost" nextPostUrl <>
     field "prevPost" previousPostUrl <>
     dateField "date" "%F" <> defaultContext
+
+postCtxWithTags :: Tags -> Context String
+postCtxWithTags tags = tagsField "tags" tags `mappend` postCtx
 
 previousPostUrl :: Item String -> Compiler String
 previousPostUrl post = do

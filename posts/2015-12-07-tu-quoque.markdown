@@ -1,6 +1,7 @@
 ---
 title: Tu Quoque
 author: Julius
+tags: itis, fp, haskell, poople
 ---
 
 Vestibulum leo turpis, dignissim quis ultrices sit amet, iaculis ac ligula.

@@ -1,5 +1,6 @@
 ---
 title: Carpe Diem
+tags: itis, fp, haskell, poople
 ---
 
 Fusce tortor quam, egestas in posuere quis, porttitor vel turpis. Donec
