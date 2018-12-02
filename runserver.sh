@@ -1,3 +1,3 @@
 #!/bin/bash
 
-stack exec site watch
+stack exec static-blog watch
