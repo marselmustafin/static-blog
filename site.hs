@@ -8,6 +8,44 @@ import Data.Time.Format (parseTimeM, defaultTimeLocale)
 import Data.Time.Clock (UTCTime)
 import Control.Applicative (Alternative (..))
 
+data SiteInfo = SiteInfo { root        :: String
+                         , protocol    :: String
+                         , title       :: String
+                         , desc        :: String
+                         }
+
+data Profile = Profile { first_name :: String
+               , last_name :: String
+               , age :: Int
+               }
+
+--------------------------------------------------------------------------------
+
+info :: SiteInfo
+info = SiteInfo
+  { root = "poopleblog.com"
+  , protocol = "https"
+  , title = "PoopleBlog"
+  , desc = "Poople Team Blog"
+  }
+
+sagit :: Profile
+sagit = Profile
+  { first_name = "Sagit"
+  , last_name = "Khaliullin"
+  , age = 21
+  }
+
+marsel :: Profile
+marsel = Profile
+  { first_name = "Marsel"
+  , last_name = "Mustafin"
+  , age = 21
+  }
+
+profiles :: [Profile]
+profiles = [marsel, sagit]
+
 static = do
   match "css/*" $ route idRoute >> compile compressCssCompiler
   match "images/*" idCopy
@@ -18,13 +56,16 @@ main = hakyll $ do
   static
   let ldr ctx i = loadAndApplyTemplate "templates/default.html" ctx i >>= relativizeUrls
 
-  match "index.org" $ do
-    route   $ setExtension "html"
-    compile $ pandocCompiler >>= ldr defaultContext
-
-  match "pgp.org" $ do
-    route   $ setExtension "html"
-    compile $ pandocCompiler >>= ldr defaultContext
+  match "index.html" $ do
+    route idRoute
+    compile $ do
+      let ctxWithInfo = constField "blogTitle" (title info) <>
+                        constField "blogDesc" (desc info) <>
+                        listField "profiles" profileCtx (mapM makeItem profiles) <>
+                        defaultContext
+      getResourceBody
+        >>= applyAsTemplate ctxWithInfo
+        >>= ldr ctxWithInfo
 
   tags <- buildTags "posts/*" (fromCapture "tags/*.html")
 
@@ -33,14 +74,13 @@ main = hakyll $ do
         route idRoute
         compile $ do
             posts <- recentFirst =<< loadAll pattern
-            let ctx = constField "title" title
-                      `mappend` listField "posts" postCtx (return posts)
-                      `mappend` defaultContext
+            let tagCtx = constField "title" title <>
+                         listField "posts" postCtx (return posts) <>
+                         defaultContext
 
             makeItem ""
-                >>= loadAndApplyTemplate "templates/tag.html" ctx
-                >>= loadAndApplyTemplate "templates/default.html" ctx
-                >>= relativizeUrls
+                >>= loadAndApplyTemplate "templates/tag.html" tagCtx
+                >>= ldr tagCtx
 
   match "posts/*" $ do
     route $ setExtension "html"
@@ -62,6 +102,11 @@ main = hakyll $ do
 
   match "templates/*" $ compile templateBodyCompiler
 
+--------------------------------------------------------------------------------
+profileCtx = field "first_name" (return . first_name . itemBody) <>
+             field "last_name" (return . last_name . itemBody) <>
+             field "age" (return . show . age . itemBody)
+
 postCtx :: Context String
 postCtx =
     field "nextPost" nextPostUrl <>
@@ -69,7 +114,7 @@ postCtx =
     dateField "date" "%F" <> defaultContext
 
 postCtxWithTags :: Tags -> Context String
-postCtxWithTags tags = tagsField "tags" tags `mappend` postCtx
+postCtxWithTags tags = tagsField "tags" tags <> postCtx
 
 previousPostUrl :: Item String -> Compiler String
 previousPostUrl post = do

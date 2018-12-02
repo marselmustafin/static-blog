@@ -1,7 +1,0 @@
----
-title: Homepage
----
-
-* Poople Static Blog
-
-Made by poople dev-team (Marsel, Marat, Sagit)

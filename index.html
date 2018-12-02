@@ -1,0 +1,17 @@
+<div class="title">
+    <h2>$blogTitle$</h2>
+    <p>$blogDesc$</p>
+    <table>
+        <tr>
+            $for(profiles)$
+            <p>$first_name$</p>
+            <p>$last_name$</p>
+            <p>$age$</p>
+            $for(links)$
+            <p>$name$</p>
+            <p>$url$</p>
+            $endfor$
+            $endfor$
+        </tr>
+    </table>
+</div>
