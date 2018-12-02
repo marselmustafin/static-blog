@@ -1,0 +1,16 @@
+name:                static-blog
+version:             0.1.0.0
+
+
+dependencies:
+  - base >= 4.7 && < 5
+  - hakyll == 4.12.*
+  - containers
+  - pandoc
+  - time
+  - filepath
+
+executables:
+  static-blog:
+    source-dirs:      src
+    main:             Site.hs

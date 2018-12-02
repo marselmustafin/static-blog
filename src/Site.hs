@@ -1,4 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
+
+module Main where
+
 import Hakyll
 import Data.Monoid ((<>))
 import Data.Maybe (fromMaybe)
@@ -7,19 +10,8 @@ import System.FilePath (takeFileName)
 import Data.Time.Format (parseTimeM, defaultTimeLocale)
 import Data.Time.Clock (UTCTime)
 import Control.Applicative (Alternative (..))
+import Types
 
-data SiteInfo = SiteInfo { root        :: String
-                         , protocol    :: String
-                         , title       :: String
-                         , desc        :: String
-                         }
-
-data Profile = Profile { first_name :: String
-               , last_name :: String
-               , age :: Int
-               }
-
---------------------------------------------------------------------------------
 
 info :: SiteInfo
 info = SiteInfo
