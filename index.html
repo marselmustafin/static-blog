@@ -1,13 +1,17 @@
-<div class="title">
-    <h2>$blogTitle$</h2>
-    <p>$blogDesc$</p>
-    <table>
-        <tr>
-            $for(profiles)$
-            <p>$first_name$</p>
-            <p>$last_name$</p>
-            <p>$age$</p>
-            $endfor$
-        </tr>
-    </table>
+<h1>$blogTitle$</h1>
+<h5>$blogDesc$</h5>
+<div class="row">
+    $for(profiles)$
+    <div class="col-md-6 col-lg-4 col-sm-12 mar-top-25">
+        <div class="col-lg-5 col-sm-12">
+            <img style="width: 100%;" class="img-responsive" src="images/$photo$" alt="photo">
+        </div>
+        <div class="col-lg-7 col-sm-12">
+            <h4 class="mar-top-10">$first_name$ $last_name$</h4>
+            <h5>$age$ years old</h5>
+            <h5>Works at $works$</h5>
+        </div>
+    </div>
+
+    $endfor$
 </div>

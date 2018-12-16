@@ -1,0 +1,21 @@
+.main-logo {
+    width: 110px;
+}
+
+.mar-top-25 {
+    margin-top: 25px;
+}
+
+.mar-top-10 {
+    margin-top: 10px;
+}
+
+.post {
+    background: #fdfdfd;
+    box-shadow: 0 1px 0 0 #d7d8db, 0 0 0 1px #e3e4e8;
+}
+
+.post:hover {
+    background: #f4f4f4;
+}
+

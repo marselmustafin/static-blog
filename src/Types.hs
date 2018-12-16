@@ -12,4 +12,6 @@ data SiteInfo = SiteInfo { root        :: String
 data Profile = Profile { first_name :: String
                , last_name :: String
                , age :: Int
+               , works :: String
+               , photo :: String
                } deriving Show
