@@ -10,8 +10,19 @@
     margin-top: 10px;
 }
 
+.mar-bot-25 {
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.ov-h {
+    overflow: hidden;
+}
+
 .post {
+    padding: 10px;
     background: #fdfdfd;
+    border-radius: 5px;
     box-shadow: 0 1px 0 0 #d7d8db, 0 0 0 1px #e3e4e8;
 }
 
@@ -19,3 +30,19 @@
     background: #f4f4f4;
 }
 
+.date {
+
+}
+
+.post-title {
+    background-color: #ececec;
+    padding: 15px 5px;
+    border-radius: 5px;
+}
+
+.tags {
+    background-color: #fafafa;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px 0;
+}

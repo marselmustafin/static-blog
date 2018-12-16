@@ -1,16 +1,18 @@
-<h2> $title$ </h2>
+<h2 class="post-title">$title$</h2>
 
-<span class="date">$date$</span>
+<span class="date">Published: $date$</span>
 
 <div class="info">
     $if(tags)$
-    Tags: $tags$
+    <div class="tags">
+        $tags$
+    </div>
     $endif$
 </div>
 
 $body$
 
-<div>
+<div class="mar-bot-25">
   $if(prevPost)$
   <a href="$prevPost$" style="float:left;">Previous post</a>
   $endif$

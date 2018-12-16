@@ -1,7 +1,26 @@
-<ul>
+<div class="row">
     $for(posts)$
-        <li>
-            <a href="$url$">$title$</a> <span class="date">$date$</span>
-        </li>
+    <div class="col-md-5 col-sm-12 mar-top-25 post ov-h" onclick="f('$url$')">
+        <h4>$title$</h4>
+        <span class="date">$date$</span>
+    </div>
+    <div class="col-md-1"></div>
+
     $endfor$
-</ul>
+</div>
+
+<script>
+function f(url) {
+    var new_path = '';
+    var path = window.location.href.split('/');
+    for (i = 2; i < path.length - 1; i++) {
+        new_path += path[i]
+        if (new_path.slice(-1) != '/') {
+            new_path += '/'
+        }
+    }
+    new_path += url.substr(1);
+    window.location= 'http://' + new_path;
+}
+
+</script>
