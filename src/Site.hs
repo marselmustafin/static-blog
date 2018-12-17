@@ -54,7 +54,7 @@ profiles = [marsel, sagit, marat]
 
 static = do
   match "css/*" $ route idRoute >> compile compressCssCompiler
-  match "images/*" idCopy
+  match "files/*" idCopy
   where idCopy = route idRoute >> compile copyFileCompiler
 
 main :: IO ()
