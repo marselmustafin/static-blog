@@ -22,7 +22,7 @@ imageRules :: Pattern
            -> ImageProcessing
            -> Rules ()
 imageRules pat procs = match pat $ do
-  sequence $ map processImage procs
+  sequence_ $ map processImage procs
   where
     imageRoute name ident = let path = toFilePath ident
                                 base = takeFileName path
