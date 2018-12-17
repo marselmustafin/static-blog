@@ -9,7 +9,6 @@ import           Data.Monoid (mappend, mconcat, mempty)
 import           Hakyll
 import           System.FilePath
 
-
 type ImageProcessing = [(String, Maybe (Int, Int))]
 
 imageProcessor :: Pattern
@@ -23,7 +22,7 @@ imageRules :: Pattern
            -> ImageProcessing
            -> Rules ()
 imageRules pat procs = match pat $ do
-  sequence_ $ map processImage procs
+  sequence $ map processImage procs
   where
     imageRoute name ident = let path = toFilePath ident
                                 base = takeFileName path
@@ -35,16 +34,7 @@ imageRules pat procs = match pat $ do
     processImage (name, Just (x,y)) = version name $ do
         route $ customRoute (imageRoute name)
         let cmd = "convert"
-        let args = [ "-"
-                   , "-resize"
-                   , concat [show x, "x", show y, "^"]
-                   , "-gravity"
-                   , "Center"
-                   , "-crop"
-                   , concat [show x, "x", show y, "+0+0"]
-                   , "+repage"
-                   , "-"
-                   ]
+        let args = [ "-", "-resize", concat [show x, "x", show y, "^"], "-gravity", "Center", "-crop", concat [show x, "x", show y, "+0+0"], "+repage", "-"]
         compile $ getResourceLBS >>= withItemBody (unixFilterLBS cmd args)
 
 
